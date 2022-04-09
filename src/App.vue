@@ -15,10 +15,15 @@ import Header from "@/components/Header.vue";
 
 body {
   color: var(--color-text-light);
+  overflow-x: hidden;
 }
 
 main {
   min-height: 100%;
+}
+
+button {
+  cursor: pointer;
 }
 
 #app {

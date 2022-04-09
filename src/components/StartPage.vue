@@ -1,7 +1,8 @@
 <script setup>
-import { reactive } from "vue";
-
-const beer = reactive([]);
+import { useBeerStore } from "@/stores/beers";
+const beerHistory = useBeerStore();
+const beer = beerHistory.beers;
+console.log("lastBeer", beer);
 
 async function getBeer() {
   try {
@@ -9,9 +10,10 @@ async function getBeer() {
       "https://random-data-api.com/api/beer/random_beer"
     );
     if (request.ok) {
-      beer.push(await request.json());
+      const data = await request.json();
+      beerHistory.pushTpBeerStore(data);
+      console.log("data", data);
     }
-    console.log("beer", beer);
   } catch (err) {
     console.log("Error: ", err);
   }
@@ -47,11 +49,21 @@ async function getBeer() {
       <span class="beer__item_legend">Malts: </span>
       {{ beer[beer.length - 1].malts }}
     </div>
+
+    <button @click="getBeer" class="another-beer-btn">Another Beer</button>
   </div>
 </template>
 
 <style scoped>
+.start-page__wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
 .advise-btn {
+  position: relative;
   width: 200px;
   height: 200px;
   border-radius: 50%;
@@ -68,18 +80,6 @@ async function getBeer() {
   transition: all 700ms ease;
 }
 
-.start-page__wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-}
-
-.advise-btn {
-  transform: translateZ(0);
-  position: relative;
-}
 .advise-btn:before {
   content: "";
   position: absolute;
@@ -120,7 +120,7 @@ async function getBeer() {
   transform: translate(-50%, -50%);
   padding: 2rem;
   min-width: max-content;
-  max-width: 400px;
+  width: 500px;
   border: 3px #ccc solid;
   border-radius: 15px;
 }
@@ -146,7 +146,7 @@ async function getBeer() {
   content: "";
   display: block;
   height: 2px;
-  background-color: rgba(204, 204, 204, 0.6);
+  background-color: #cccccc99;
 }
 .beer__item_legend {
   font-weight: bold;
@@ -157,5 +157,28 @@ async function getBeer() {
   align-self: flex-end;
   font-size: 1.5rem;
   font-weight: 700;
+}
+
+.another-beer-btn {
+  position: relative;
+  align-self: center;
+  width: fit-content;
+  border-radius: 25px;
+  padding: 1rem;
+  margin-top: 3rem;
+  background-color: #a52a2a7b;
+  border: none;
+
+  color: var(--color-text-light);
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-transform: uppercase;
+
+  position: relative;
+  transition: all 700ms ease;
+}
+
+.another-beer-btn:hover {
+  background-color: #a52a2a;
 }
 </style>

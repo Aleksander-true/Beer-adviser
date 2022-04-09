@@ -1,15 +1,19 @@
 <script setup>
 import { RouterLink } from "vue-router";
+import Profile from "./Profile.vue";
 </script>
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" />
+    <div class="left-menu">
+      <img alt="Vue logo" class="logo" src="@/assets/logo.svg" />
+      <nav class="nav">
+        <RouterLink to="/">Your beer </RouterLink>
+        <RouterLink to="/about">About</RouterLink>
+      </nav>
+    </div>
 
-    <nav>
-      <RouterLink to="/">Your beer </RouterLink>
-      <RouterLink to="/about">About</RouterLink>
-    </nav>
+    <Profile />
   </header>
 </template>
 
@@ -18,15 +22,21 @@ import { RouterLink } from "vue-router";
 header {
   display: flex;
   gap: 2rem;
-  align-items: center;
+  justify-content: space-between;
 }
 
-nav {
+.left-menu {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.nav {
   display: flex;
   gap: 3rem;
 }
 
-nav a {
+.nav a {
   position: relative;
   text-decoration: none;
   color: var(--color-text-light);
@@ -36,15 +46,15 @@ nav a {
   transition: all 0.5s;
 }
 
-nav a.router-link-active {
+.nav a.router-link-active {
   color: var(--color-beer-pale-gold);
 }
 
-nav a:hover {
+.nav a:hover {
   opacity: 0.7;
 }
 
-nav a.router-link-active::after {
+.nav a.router-link-active::after {
   content: "";
   display: block;
   position: absolute;
