@@ -1,5 +1,9 @@
 <script setup>
 import { onMounted, reactive, ref, computed } from "vue";
+import { useBeerStore } from "@/stores/beers";
+
+const beerStore = useBeerStore();
+const beer = beerStore.beer;
 const user = reactive({
   rawData: {},
 });
@@ -38,7 +42,6 @@ async function getProfile() {
     if (request.ok) {
       user.rawData = await request.json();
     }
-    console.log("user", user.rawData);
   } catch (err) {
     console.log("Error: ", err);
   }
@@ -62,7 +65,7 @@ async function getProfile() {
     <div class="sidebar__item">Position: {{ user.position }}</div>
     <div class="sidebar__birthday">Birthday: {{ user.birth }}</div>
     <div class="sidebar__age">Age: {{ user.age }}</div>
-    <div class="sidebar__beer">Suggested beer :</div>
+    <div class="sidebar__beer">Beer: {{ beer.descp.name }}</div>
   </div>
 </template>
 
@@ -72,6 +75,7 @@ async function getProfile() {
   align-items: center;
   gap: 1rem;
   align-self: flex-end;
+  cursor: pointer;
 }
 
 .avatar__name {
@@ -93,7 +97,9 @@ async function getProfile() {
     "title photo"
     "name photo"
     "age photo"
-    "item item";
+    "birthday photo"
+    "item item"
+    "beer beer";
   grid-template-columns: 60% 40%;
   grid-template-rows: auto;
   width: 400px;
@@ -102,7 +108,7 @@ async function getProfile() {
   top: 150px;
   right: -400px;
   transition: right 0.7s ease-in-out;
-  background-color: #6b6b6b;
+  background-color: #2a2a2a;
   font-size: 1.2rem;
   z-index: 100;
 }
@@ -122,7 +128,7 @@ async function getProfile() {
 .sidebar__name {
   font-size: 1.5rem;
   grid-area: name;
-  line-height: 1.5rem;
+  line-height: 1.6rem;
   margin-bottom: 0.5rem;
 }
 
@@ -140,5 +146,13 @@ async function getProfile() {
 
 .sidebar__age {
   grid-area: age;
+}
+
+.sidebar__beer {
+  padding-top: 1rem;
+  border-top: 2px #fff solid;
+  grid-area: beer;
+  font-size: 1.5rem;
+  font-weight: 700;
 }
 </style>

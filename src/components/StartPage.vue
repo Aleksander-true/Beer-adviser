@@ -1,56 +1,38 @@
 <script setup>
 import { useBeerStore } from "@/stores/beers";
-const beerHistory = useBeerStore();
-const beer = beerHistory.beers;
-console.log("lastBeer", beer);
+import { updateBeer } from "../services/updateBeer";
 
-async function getBeer() {
-  try {
-    const request = await fetch(
-      "https://random-data-api.com/api/beer/random_beer"
-    );
-    if (request.ok) {
-      const data = await request.json();
-      beerHistory.pushTpBeerStore(data);
-      console.log("data", data);
-    }
-  } catch (err) {
-    console.log("Error: ", err);
-  }
-}
+const beerHistory = useBeerStore();
+const beer = beerHistory.beer;
 </script>
 
 <template>
-  <div v-if="beer.length <= 0" class="start-page__wrapper">
-    <button @click="getBeer" class="advise-btn">Advise</button>
+  <div v-if="!beer.descp.name" class="start-page__wrapper">
+    <button @click="updateBeer" class="advise-btn">Advise</button>
   </div>
   <div v-else class="beer__wrapper">
-    <div class="beer__alc">Alc: {{ beer[beer.length - 1].alcohol }}</div>
-    <div class="beer__title">"{{ beer[beer.length - 1].name }}"</div>
-    <div class="beer__sub-title">{{ beer[beer.length - 1].brand }}</div>
+    <div class="beer__alc">Alc: {{ beer.descp.alcohol }}</div>
+    <div class="beer__title">"{{ beer.descp.name }}"</div>
+    <div class="beer__sub-title">{{ beer.descp.brand }}</div>
 
     <div class="beer__item">
-      <span class="beer__item_legend">Style: </span
-      >{{ beer[beer.length - 1].style }}
+      <span class="beer__item_legend">Style: </span>{{ beer.descp.style }}
     </div>
     <div class="beer__item">
-      <span class="beer__item_legend">Bitterness: </span
-      >{{ beer[beer.length - 1].blg }}
+      <span class="beer__item_legend">Bitterness: </span>{{ beer.descp.blg }}
     </div>
     <div class="beer__item">
-      <span class="beer__item_legend">Hop variety: </span
-      >{{ beer[beer.length - 1].hop }}
+      <span class="beer__item_legend">Hop variety: </span>{{ beer.descp.hop }}
     </div>
     <div class="beer__item">
-      <span class="beer__item_legend">Yeast: </span
-      >{{ beer[beer.length - 1].yeast }}
+      <span class="beer__item_legend">Yeast: </span>{{ beer.descp.yeast }}
     </div>
     <div class="beer__item">
       <span class="beer__item_legend">Malts: </span>
-      {{ beer[beer.length - 1].malts }}
+      {{ beer.descp.malts }}
     </div>
 
-    <button @click="getBeer" class="another-beer-btn">Another Beer</button>
+    <button @click="updateBeer" class="another-beer-btn">Another Beer</button>
   </div>
 </template>
 
