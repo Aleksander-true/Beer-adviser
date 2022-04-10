@@ -24,6 +24,8 @@ main {
 
 button {
   cursor: pointer;
+  border: none;
+  outline: none;
 }
 
 #app {

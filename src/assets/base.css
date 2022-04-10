@@ -3,6 +3,10 @@
   --color-background-light: #fff;
   --color-text-light: #fff;
   --color-beer-pale-gold: #f9e814;
+
+  --button-primary-color: #a52a2a7b;
+  --button-primary-border-color: #a22828;
+  --button-primary-hover-color: #a52a2a;
 }
 
 @media (prefers-color-scheme: dark) {

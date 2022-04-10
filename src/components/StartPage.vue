@@ -1,48 +1,38 @@
 <script setup>
 import { useBeerStore } from "@/stores/beers";
 import { updateBeer } from "../services/updateBeer";
+import BeerLabel from "./BeerLabel.vue";
 
 const beerHistory = useBeerStore();
 const beer = beerHistory.beer;
 </script>
 
 <template>
-  <div v-if="!beer.descp.name" class="start-page__wrapper">
+  <div v-if="!beer.descp.name" class="wrapper">
     <button @click="updateBeer" class="advise-btn">Advise</button>
   </div>
-  <div v-else class="beer__wrapper">
-    <div class="beer__alc">Alc: {{ beer.descp.alcohol }}</div>
-    <div class="beer__title">"{{ beer.descp.name }}"</div>
-    <div class="beer__sub-title">{{ beer.descp.brand }}</div>
-
-    <div class="beer__item">
-      <span class="beer__item_legend">Style: </span>{{ beer.descp.style }}
-    </div>
-    <div class="beer__item">
-      <span class="beer__item_legend">Bitterness: </span>{{ beer.descp.blg }}
-    </div>
-    <div class="beer__item">
-      <span class="beer__item_legend">Hop variety: </span>{{ beer.descp.hop }}
-    </div>
-    <div class="beer__item">
-      <span class="beer__item_legend">Yeast: </span>{{ beer.descp.yeast }}
-    </div>
-    <div class="beer__item">
-      <span class="beer__item_legend">Malts: </span>
-      {{ beer.descp.malts }}
-    </div>
-
+  <div v-else class="beer-wrapper">
+    <BeerLabel />
     <button @click="updateBeer" class="another-beer-btn">Another Beer</button>
   </div>
 </template>
 
 <style scoped>
-.start-page__wrapper {
+.wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
   height: 100%;
+}
+
+.beer-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  transform: translate(-50%, -50%);
 }
 .advise-btn {
   position: relative;
@@ -50,7 +40,7 @@ const beer = beerHistory.beer;
   height: 200px;
   border-radius: 50%;
 
-  background-color: #a52a2a7b;
+  background-color: var(--button-primary-color);
   border: none;
 
   color: var(--color-text-light);
@@ -93,13 +83,9 @@ const beer = beerHistory.beer;
   }
 }
 
-.beer__wrapper {
-  position: absolute;
-  top: 50%;
-  left: 50%;
+.beer-label {
   display: flex;
   flex-direction: column;
-  transform: translate(-50%, -50%);
   padding: 2rem;
   min-width: max-content;
   width: 500px;
@@ -107,35 +93,35 @@ const beer = beerHistory.beer;
   border-radius: 15px;
 }
 
-.beer__title {
+.title {
   color: var(--color-beer-pale-gold);
   font-size: 3rem;
   align-self: center;
 }
 
-.beer__sub-title {
+.sub-title {
   font-size: 1.5rem;
   font-style: italic;
   align-self: center;
   margin-bottom: 2rem;
 }
 
-.beer__item {
+.descr {
   font-size: 1.2rem;
 }
 
-.beer__item::after {
+.descr::after {
   content: "";
   display: block;
   height: 2px;
   background-color: #cccccc99;
 }
-.beer__item_legend {
+.descr-label {
   font-weight: bold;
   margin-right: 0.5rem;
 }
 
-.beer__alc {
+.alc {
   align-self: flex-end;
   font-size: 1.5rem;
   font-weight: 700;
@@ -150,12 +136,10 @@ const beer = beerHistory.beer;
   margin-top: 3rem;
   background-color: #a52a2a7b;
   border: none;
-
   color: var(--color-text-light);
   font-size: 1.5rem;
   font-weight: 600;
   text-transform: uppercase;
-
   position: relative;
   transition: all 700ms ease;
 }
