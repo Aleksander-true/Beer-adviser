@@ -39,10 +39,7 @@ const beer = beerHistory.beer;
   width: 200px;
   height: 200px;
   border-radius: 50%;
-
   background-color: var(--button-primary-color);
-  border: none;
-
   color: var(--color-text-light);
   font-size: 2rem;
   font-weight: 600;
