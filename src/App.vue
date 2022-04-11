@@ -30,7 +30,7 @@ button {
 
 #app {
   display: grid;
-  grid-template-rows: 100px auto;
+  grid-template-rows: 6rem auto;
   width: 100%;
   min-height: 100vh;
   max-width: 1280px;
@@ -38,5 +38,57 @@ button {
   padding: 2rem;
 
   font-weight: normal;
+}
+
+@media (max-width: 425px) {
+  #app {
+    padding: 0.5rem;
+    grid-template-rows: 4rem auto;
+  }
+}
+
+.spinner {
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
+}
+
+.spinner:after {
+  animation: changeContent 0.8s linear infinite;
+  display: block;
+  content: "⠋";
+  font-size: 80px;
+}
+
+@keyframes changeContent {
+  10% {
+    content: "⠙";
+  }
+  20% {
+    content: "⠹";
+  }
+  30% {
+    content: "⠸";
+  }
+  40% {
+    content: "⠼";
+  }
+  50% {
+    content: "⠴";
+  }
+  60% {
+    content: "⠦";
+  }
+  70% {
+    content: "⠧";
+  }
+  80% {
+    content: "⠇";
+  }
+  90% {
+    content: "⠏";
+  }
 }
 </style>

@@ -1,20 +1,18 @@
 import { useBeerStore } from "@/stores/beers";
-import handleHttpErrors from "./handleHttpErrors";
+import { BEER_DATA_URL, UPDATE_BEER_ERROR_MESSAGE } from "../constants";
+import { api } from "./api";
 
 async function updateBeer() {
-  const beerHistory = useBeerStore();
-  try {
-    const request = await fetch(
-      "https://random-data-api.com/api/beer/random_beer"
-    );
-    if (request.status == 200) {
-      const data = await request.json();
-      beerHistory.$patch({ beer: { descp: data } });
-    } else {
-      handleHttpErrors(request);
-    }
-  } catch (err) {
-    console.log("Error: ", err);
+  const beerStory = useBeerStore();
+  beerStory.$patch({ beer: { descp: "loading" } });
+  const apiResponse = await api.get(BEER_DATA_URL);
+
+  console.log("beerStory", beerStory.beer.descp);
+  if (apiResponse.isSuccess) {
+    const data = await apiResponse.response.json();
+    beerStory.$patch({ beer: { descp: data } });
+  } else {
+    alert(UPDATE_BEER_ERROR_MESSAGE);
   }
 }
 

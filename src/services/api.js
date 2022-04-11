@@ -1,22 +1,15 @@
 const api = {
-  async get({ url, headers, mode, cache }) {
+  async get(url, options) {
     try {
-      const response = await fetch(url, {
-        method: "GET",
-        headers,
-        mode,
-        cache,
-      });
+      const response = await fetch(url, options);
       if (response.status == 200) {
-        return {
-          isSuccess: true,
-          response: response,
-        };
+        return { isSuccess: true, response: response };
       } else {
         return { isSuccess: false, response: response };
       }
     } catch (err) {
       console.log("Error: ", err);
+      return { isSuccess: false, response: null };
     }
   },
 };
