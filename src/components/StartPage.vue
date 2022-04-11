@@ -2,18 +2,26 @@
 import { useBeerStore } from "@/stores/beers";
 import { updateBeer } from "../services/updateBeer";
 import BeerLabel from "./BeerLabel.vue";
+import { ADVISE_BEER_BTN_TEXT, UPDATE_BEER_BTN_TEXT } from "./../constants";
 
 const beerHistory = useBeerStore();
 const beer = beerHistory.beer;
 </script>
 
 <template>
-  <div v-if="!beer.descp.name" class="wrapper">
-    <button @click="updateBeer" class="advise-btn">Advise</button>
+  <div v-if="!beer.descp" class="wrapper">
+    <button @click="updateBeer" class="advise-btn">
+      {{ ADVISE_BEER_BTN_TEXT }}
+    </button>
+  </div>
+  <div v-else-if="beer.descp === 'loading'" class="wrapper">
+    <div class="spinner"></div>
   </div>
   <div v-else class="beer-wrapper">
     <BeerLabel />
-    <button @click="updateBeer" class="another-beer-btn">Another Beer</button>
+    <button @click="updateBeer" class="another-beer-btn">
+      {{ UPDATE_BEER_BTN_TEXT }}
+    </button>
   </div>
 </template>
 
@@ -36,8 +44,8 @@ const beer = beerHistory.beer;
 }
 .advise-btn {
   position: relative;
-  width: 200px;
-  height: 200px;
+  width: 12rem;
+  height: 12rem;
   border-radius: 50%;
   background-color: var(--button-primary-color);
   color: var(--color-text-light);
@@ -61,7 +69,7 @@ const beer = beerHistory.beer;
 }
 
 .advise-btn:hover {
-  background-color: #a52a2a;
+  background-color: var(--button-primary-hover-color);
 }
 
 .advise-btn:hover:before,
@@ -70,58 +78,19 @@ const beer = beerHistory.beer;
   animation: ripple-out forwards 0.7s;
 }
 
+.loading-text {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
 @keyframes ripple-out {
   100% {
-    top: -12px;
-    right: -12px;
-    bottom: -12px;
-    left: -12px;
+    top: -1rem;
+    right: -1rem;
+    bottom: -1rem;
+    left: -1rem;
     opacity: 0;
   }
-}
-
-.beer-label {
-  display: flex;
-  flex-direction: column;
-  padding: 2rem;
-  min-width: max-content;
-  width: 500px;
-  border: 3px #ccc solid;
-  border-radius: 15px;
-}
-
-.title {
-  color: var(--color-beer-pale-gold);
-  font-size: 3rem;
-  align-self: center;
-}
-
-.sub-title {
-  font-size: 1.5rem;
-  font-style: italic;
-  align-self: center;
-  margin-bottom: 2rem;
-}
-
-.descr {
-  font-size: 1.2rem;
-}
-
-.descr::after {
-  content: "";
-  display: block;
-  height: 2px;
-  background-color: #cccccc99;
-}
-.descr-label {
-  font-weight: bold;
-  margin-right: 0.5rem;
-}
-
-.alc {
-  align-self: flex-end;
-  font-size: 1.5rem;
-  font-weight: 700;
 }
 
 .another-beer-btn {
@@ -131,17 +100,17 @@ const beer = beerHistory.beer;
   border-radius: 25px;
   padding: 1rem;
   margin-top: 3rem;
-  background-color: #a52a2a7b;
+  background-color: var(--button-primary-color);
   border: none;
   color: var(--color-text-light);
   font-size: 1.5rem;
   font-weight: 600;
   text-transform: uppercase;
   position: relative;
-  transition: all 700ms ease;
+  transition: all 0.7s ease;
 }
 
 .another-beer-btn:hover {
-  background-color: #a52a2a;
+  background-color: var(--button-primary-hover-color);
 }
 </style>

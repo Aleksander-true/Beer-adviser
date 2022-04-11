@@ -4,15 +4,16 @@ import { useBeerStore } from "@/stores/beers";
 import { useUserStore } from "@/stores/user";
 import { getProfile } from "../services/getProfile";
 import { updateBeer } from "../services/updateBeer";
+import * as CONST from "./../constants";
 
 const beerStore = useBeerStore();
 const beer = beerStore.beer;
 
 const userStore = useUserStore();
+userStore.$patch({ user: { rawData: CONST.INIT_PERSON_DATA } });
 const user = userStore.user;
 
 const isOpen = ref(false);
-
 onMounted(() => getProfile());
 
 function toogleSidebar() {
@@ -32,17 +33,17 @@ function toogleSidebar() {
     @click="toogleSidebar"
   ></div>
   <div :class="{ open: isOpen }" class="sidebar">
-    <div class="sidebar__title">Profile</div>
+    <div class="sidebar__title">{{ CONST.PROFILE_TITLE }}</div>
     <img class="sidebar__photo" v-bind:src="user.avatar" alt="avatar" />
     <div class="sidebar__name">{{ user.fullName }}</div>
-    <div class="sidebar__item">Position: {{ user.position }}</div>
-    <div class="sidebar__birthday">Birthday: {{ user.birth }}</div>
-    <div class="sidebar__age">Age: {{ user.age }}</div>
+    <div class="sidebar__item">{{ CONST.POSITION_LABEL + user.position }}</div>
+    <div class="sidebar__birthday">{{ CONST.BIRTH_LABEL + user.birth }}</div>
+    <div class="sidebar__age">{{ CONST.AGE_LABEL + user.age }}</div>
     <div class="sidebar__beer">
-      <span>Beer: </span>
-      <span v-if="beer.descp.name">{{ beer.descp.name }}</span>
+      <span>{{ CONST.BEER_NAME_LABEL }}</span>
+      <span v-if="beer.descp?.name">{{ beer.descp.name }}</span>
       <button v-else class="advise-beer-btn" @click="updateBeer">
-        Click to advise
+        {{ CONST.ADVISE_BEER_BTN }}
       </button>
     </div>
   </div>
@@ -53,7 +54,6 @@ function toogleSidebar() {
   display: flex;
   align-items: center;
   gap: 1rem;
-  align-self: flex-end;
   cursor: pointer;
 }
 
@@ -63,8 +63,7 @@ function toogleSidebar() {
 }
 
 .avatar__img {
-  width: 100px;
-  height: 100px;
+  height: 6rem;
   border-radius: 50%;
   background-color: var(--color-background-light);
 }
@@ -81,15 +80,15 @@ function toogleSidebar() {
     "beer beer";
   grid-template-columns: 60% 40%;
   grid-template-rows: auto;
-  width: 400px;
+  width: 25rem;
   padding: 2rem;
   border-radius: 15px 0 0 15px;
-  top: 150px;
-  right: -400px;
+  top: 10rem;
+  right: -25rem;
   transition: right 0.7s ease-in-out;
-  background-color: #2a2a2a;
+  background-color: var(--color-background-sidebar);
   font-size: 1.2rem;
-  z-index: 100;
+  z-index: 20;
 }
 
 .sidebar.open {
@@ -99,16 +98,18 @@ function toogleSidebar() {
 .sidebar__backspace {
   visibility: hidden;
   position: fixed;
+  top: 0;
+  left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: #00000000;
+  background-color: transparent;
   transition: background-color 0.5s;
-  z-index: 99;
+  z-index: 19;
 }
 
 .sidebar__backspace.open {
   visibility: visible;
-  background-color: #000000c3;
+  background-color: var(--color-background-shading);
 }
 
 .sidebar__photo {
@@ -145,7 +146,7 @@ function toogleSidebar() {
 .sidebar__beer {
   margin-top: 0.5rem;
   padding-top: 0.5rem;
-  border-top: 2px #fff solid;
+  border-top: 0.12rem #fff solid;
   grid-area: beer;
   font-size: 1.5rem;
   font-weight: 700;
@@ -162,5 +163,20 @@ function toogleSidebar() {
 
 .advise-beer-btn:hover {
   background-color: var(--button-primary-hover-color);
+}
+
+@media (max-width: 768px) {
+  .avatar__img {
+    height: 5rem;
+  }
+}
+
+@media (max-width: 425px) {
+  .avatar__img {
+    height: 4rem;
+  }
+  .sidebar {
+    width: 20rem;
+  }
 }
 </style>

@@ -1,15 +1,18 @@
 <script setup>
 import { RouterLink } from "vue-router";
 import Profile from "./Profile.vue";
+import { HOME_LINK, ABOUT_LINK } from "./../constants";
+import BurgerMenu from "./BurgerMenu.vue";
 </script>
 
 <template>
   <header>
-    <div class="left-menu">
-      <img alt="Vue logo" class="logo" src="@/assets/logo.svg" />
+    <BurgerMenu />
+    <div class="menu">
+      <img alt="logo" class="logo" src="@/assets/logo.svg" />
       <nav class="nav">
-        <RouterLink to="/">Your beer </RouterLink>
-        <RouterLink to="/about">About</RouterLink>
+        <RouterLink to="/">{{ HOME_LINK }}</RouterLink>
+        <RouterLink to="/about">{{ ABOUT_LINK }}</RouterLink>
       </nav>
     </div>
 
@@ -18,14 +21,14 @@ import Profile from "./Profile.vue";
 </template>
 
 <style>
-@import "@/assets/base.css";
 header {
   display: flex;
   gap: 2rem;
   justify-content: space-between;
+  align-items: center;
 }
 
-.left-menu {
+.menu {
   display: flex;
   align-items: center;
   gap: 2rem;
@@ -67,12 +70,45 @@ header {
 }
 
 .logo {
-  width: 100px;
+  height: 6rem;
 }
 
 @keyframes underline {
   100% {
     width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .logo {
+    height: 5rem;
+  }
+}
+
+@media (max-width: 550px) {
+  .menu {
+    display: none;
+  }
+
+  .burger-menu {
+    display: block;
+  }
+
+  .logo {
+    display: none;
+  }
+
+  .nav {
+    gap: 2rem;
+    flex-direction: column-reverse;
+  }
+
+  .nav a {
+    font-size: 1.3rem;
+  }
+
+  .nav a.router-link-active::after {
+    display: none;
   }
 }
 </style>
